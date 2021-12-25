@@ -6,9 +6,20 @@
     "start": "next start"
   },
   "dependencies": {
+    "@heroicons/react": "^1.0.5",
+    "@tailwindcss/aspect-ratio": "^0.4.0",
+    "@tailwindcss/forms": "^0.4.0",
+    "@tailwindcss/typography": "^0.5.0",
+    "axios": "^0.24.0",
+    "cookie": "^0.4.1",
+    "date-fns": "^2.27.0",
+    "js-cookie": "^3.0.1",
     "next": "latest",
+    "pure-react-carousel": "^1.27.8",
+    "qs": "^6.10.2",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-toastify": "^8.1.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.0",
