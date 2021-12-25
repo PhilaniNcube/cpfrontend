@@ -18,7 +18,7 @@ const CategoryProducts = ({ products }) => {
           {products.map((product) => {
             return (
               <div className="flex items-start flex-col">
-                <div className="relative flex justify-center items-center bg-gray-100">
+                <div className="relative flex justify-center items-center bg-gray-200">
                   <img
                     src={product.mainImage.formats.small.url}
                     alt="mobile"
