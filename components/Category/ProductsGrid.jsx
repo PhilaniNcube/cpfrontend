@@ -1,5 +1,6 @@
 import useCart from '../../hooks/useCart';
 import React from 'react';
+import Link from 'next/link';
 
 const CategoryProducts = ({ products }) => {
   console.log(products);
@@ -11,10 +12,10 @@ const CategoryProducts = ({ products }) => {
       <div className="fle flex-col justify-center items-center">
         <div className="flex justify-start items-start">
           <p className="text-3xl lg:text-4xl font-semibold leading-9 text-gray-800">
-            Featured items
+            Featured Products
           </p>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 justify-items-between mt-8 gap-y-8 lg:gap-y-0 gap-x-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 justify-items-between mt-8 gap-y-8 lg:gap-y-12 gap-x-8">
           {products.map((product) => {
             return (
               <div className="flex items-start flex-col">
@@ -53,9 +54,11 @@ const CategoryProducts = ({ products }) => {
                 </div>
                 <div className="flex flex-col items-start jusitfy-start mt-3 space-y-3">
                   <div>
-                    <p className="text-lg font-medium leading-4 text-gray-800">
-                      {product.name}
-                    </p>
+                    <Link href={`/products/${product.slug}`} passHref>
+                      <p className="text-lg font-medium leading-4 text-gray-800 cursor-pointer">
+                        {product.name}
+                      </p>
+                    </Link>
                   </div>
                   <div>
                     <p className="text-lg leading-4 text-gray-600">
