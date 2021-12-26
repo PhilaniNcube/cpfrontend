@@ -2,9 +2,17 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import qs from 'qs';
 import Link from 'next/link';
-import { API_URL } from '../../config/index';
+import { API_URL, PER_PAGE } from '../../config/index';
+import Pagination from '../../components/Products/Pagination';
 
-export default function Shop({ products, categories }) {
+export default function Shop({
+  products,
+  categories,
+  page,
+  start,
+  end,
+  total,
+}) {
   const router = useRouter();
 
   const [text, setText] = useState(false);
@@ -247,18 +255,35 @@ export default function Shop({ products, categories }) {
           </div>
         </div>
       </div>
+      <Pagination page={page} total={total} start={start + 1} end={end} />
     </div>
   );
 }
 
-export async function getServerSideProps({ query: { term } }) {
-  const res = await fetch(`${API_URL}/products?_sort=${term}`);
+export async function getServerSideProps({ query: { term, page = 1 } }) {
+  const start = +page === 1 ? 0 : (+page - 1) * PER_PAGE;
+
+  // Fetch total/count
+  const totalRes = await fetch(`${API_URL}/products/count`);
+  const total = await totalRes.json();
+  const end = total;
+
+  const res = await fetch(
+    `${API_URL}/products?_sort=${term}&_limit=${PER_PAGE}&_start=${start}`,
+  );
   const products = await res.json();
 
   const catRes = await fetch(`${API_URL}/categories`);
   const categories = await catRes.json();
 
   return {
-    props: { products, categories },
+    props: {
+      products,
+      categories,
+      total,
+      page: +page,
+      start,
+      end,
+    },
   };
 }
