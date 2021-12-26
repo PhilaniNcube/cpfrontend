@@ -146,7 +146,7 @@ export default function Shop({
                         <div className="hover:shadow-md cursor-pointer transition duration-200 w-full">
                           <Link href={`/products/${product.slug}`}>
                             <img
-                              src={product.mainImage.formats.small.url}
+                              src={product.mainImage.url}
                               alt={product.name}
                             />
                           </Link>
@@ -226,28 +226,6 @@ export default function Shop({
                 </div>
                 <hr className="w-full my-8" />
 
-                <div className="flex flex-col justify-start items-start space-y-6 ">
-                  <p className="text-lg font-medium leading-5 text-gray-800">
-                    Price
-                  </p>
-                  <div className="flex flex-col space-y-6">
-                    <p className="text-base font-medium leading-4 text-gray-600">
-                      R0.00 - R500
-                    </p>
-                    <p className="text-base font-medium leading-4 text-gray-600">
-                      R501 - R1000
-                    </p>
-                    <p className="text-base font-medium leading-4 text-gray-600">
-                      R1001 - R2000
-                    </p>
-                    <p className="text-base font-medium leading-4 text-gray-600">
-                      R2001 - R4000
-                    </p>
-                    <p className="text-base font-medium leading-4 text-gray-600">
-                      R4001 & More
-                    </p>
-                  </div>
-                </div>
                 <hr className="w-full lg:hidden my-8" />
               </div>
               {/* filter section end */}

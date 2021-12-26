@@ -54,23 +54,23 @@ const Product = ({ product }) => {
                     return (
                       <img
                         key={image.id}
-                        className="w-full"
-                        src={image.formats.small.url}
+                        className="h-24 w-24 aspect-square"
+                        src={image.url}
                         alt={image.name}
                       />
                     );
                   })}
                 </div>
               </div>
-              <div>
+              <div className="w-full">
                 <img
                   className="hidden xl:block w-full shadow shadow-sky-100 rounded"
-                  src={product.mainImage.formats.small.url}
+                  src={product.mainImage.url}
                   alt={product.name}
                 />
                 <img
                   className="xl:hidden w-full"
-                  src={product.mainImage.formats.small.url}
+                  src={product.mainImage.url}
                   alt={product.name}
                 />
               </div>
