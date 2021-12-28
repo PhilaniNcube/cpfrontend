@@ -205,7 +205,7 @@ export default function step2() {
               <div className="flex justify-between w-full items-center">
                 <p className="text-lg leading-4 text-gray-600">Total items</p>
                 <p className="text-lg font-semibold leading-4 text-gray-600">
-                  20
+                  {cart.length}
                 </p>
               </div>
               <div className="flex justify-between w-full items-center">

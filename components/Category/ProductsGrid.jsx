@@ -21,7 +21,7 @@ const CategoryProducts = ({ products }) => {
               <div className="flex items-start flex-col">
                 <div className="relative flex justify-center items-center bg-gray-200">
                   <img
-                    src={product.mainImage.formats.small.url}
+                    src={product.mainImage.url}
                     alt="mobile"
                     className="h-full w-full"
                   />

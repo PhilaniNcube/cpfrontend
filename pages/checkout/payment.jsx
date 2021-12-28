@@ -5,6 +5,7 @@ import { API_URL } from '../../config/index';
 import { parseCookies } from '../../helpers/index';
 import { useRouter } from 'next/router';
 import AuthContext from '../../context/AuthContext';
+import axios from 'axios';
 
 export default function Payment({ token }) {
   const router = useRouter();
@@ -21,10 +22,6 @@ export default function Payment({ token }) {
     cartTotal,
   } = useCart();
 
-  console.log(token);
-
-  console.log(paymentMethod);
-
   const shippingDetails = JSON.parse(localStorage.getItem('shippingDetails'));
 
   console.log(shippingDetails);
@@ -38,7 +35,7 @@ export default function Payment({ token }) {
       },
       body: JSON.stringify({
         user: user.id,
-        orderTotal: cartTotal,
+        orderTotal: Number(cartTotal + 15000),
         streetAddress: shippingDetails.address,
         city: shippingDetails.city,
         postalCode: shippingDetails.postalCode,
@@ -52,15 +49,37 @@ export default function Payment({ token }) {
       }),
     });
 
+    const order = await res.json();
+
     if (!res.ok) {
       if (res.status === 403 || res.status === 401) {
         alert('something went wrong');
         return;
       }
-    } else {
-      const order = await res.json();
-      router.push(`/`);
     }
+
+    console.log(order);
+
+    const tokenRequest = async (order) => {
+      if (order.id) {
+        const response = axios.post(`/api/getToken`, {
+          username: 'capegadgets',
+          password: '9d059e3fb4efe73760d5ecee6909c2d2',
+          cardNumber: '117081755127901',
+          terminalId: '94DVA001',
+          amount: Number(order.orderTotal / 100).toFixed(2),
+          redirectSuccess: `http://localhost:3000/account/orders/${order.id}?payment=success`,
+          redirectCancel: `http://localhost:3000/account/orders/${order.id}?payment=cancel`,
+          reference: order.id,
+        });
+
+        console.log(await response);
+        // localStorage.setItem('intelliToken', response.data.token);
+        // window.location.href = `https://portal.intellimali.co.za/web/payment?paymentToken=${response.data.token}`;
+      }
+    };
+
+    tokenRequest(order);
   };
 
   return (
