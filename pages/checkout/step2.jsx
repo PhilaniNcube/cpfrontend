@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import useCart from 'hooks/useCart';
 
 export default function step2() {
   const router = useRouter();
@@ -19,7 +20,7 @@ export default function step2() {
     }
   }, []);
 
-  const { cart, cartTotal } = useState();
+  const { cart, cartTotal } = useCart();
 
   const [firstName, setFirstName] = useState(shippingDetails.firstName);
   const [lastName, setLastName] = useState(shippingDetails.lastName);
@@ -205,27 +206,25 @@ export default function step2() {
               <div className="flex justify-between w-full items-center">
                 <p className="text-lg leading-4 text-gray-600">Total items</p>
                 <p className="text-lg font-semibold leading-4 text-gray-600">
-                  {cart.length}
+                  {cart ? cart.length : 0}
                 </p>
               </div>
               <div className="flex justify-between w-full items-center">
                 <p className="text-lg leading-4 text-gray-600">Total Charges</p>
-                <p className="text-lg font-semibold leading-4 text-gray-600">
-                  $2790
-                </p>
+                <p className="text-lg font-semibold leading-4 text-gray-600"></p>
               </div>
               <div className="flex justify-between w-full items-center">
                 <p className="text-lg leading-4 text-gray-600">
                   Shipping charges
                 </p>
                 <p className="text-lg font-semibold leading-4 text-gray-600">
-                  $90
+                  R150
                 </p>
               </div>
               <div className="flex justify-between w-full items-center">
                 <p className="text-lg leading-4 text-gray-600">Sub total </p>
                 <p className="text-lg font-semibold leading-4 text-gray-600">
-                  $3520
+                  R R{(cartTotal / 100).toFixed(2)}
                 </p>
               </div>
             </div>
@@ -234,7 +233,7 @@ export default function step2() {
                 Estimated Total{' '}
               </p>
               <p className="text-lg font-semibold leading-4 text-gray-800">
-                $2900
+                R R{((cartTotal + 15000) / 100).toFixed(2)}
               </p>
             </div>
           </div>
