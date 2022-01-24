@@ -22,15 +22,15 @@ export default function step2() {
 
   const { cart, cartTotal } = useCart();
 
-  const [firstName, setFirstName] = useState(shippingDetails.firstName);
-  const [lastName, setLastName] = useState(shippingDetails.lastName);
-  const [address, setAddress] = useState(shippingDetails.address);
-  const [city, setCity] = useState(shippingDetails.city);
-  const [province, setProvince] = useState(shippingDetails.province);
-  const [country, setCountry] = useState(shippingDetails.country);
-  const [postalCode, setPostalCode] = useState(shippingDetails.postalCode);
-  const [phoneNumber, setPhoneNumber] = useState(shippingDetails.phoneNumber);
-  const [email, setEmail] = useState(shippingDetails.email);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [province, setProvince] = useState('');
+  const [country, setCountry] = useState('');
+  const [postalCode, setPostalCode] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [email, setEmail] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();

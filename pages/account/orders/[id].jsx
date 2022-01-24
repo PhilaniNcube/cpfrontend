@@ -1,9 +1,13 @@
+import { useRouter } from 'next/router';
 import { API_URL } from '../../../config/index';
 import { parseCookies } from '../../../helpers/index';
 import React from 'react';
 
 const OrderSummary = ({ order, token }) => {
-  console.log(order);
+  console.log(token);
+  const router = useRouter();
+
+  console.log(router.query);
 
   return (
     <div className="py-14 px-4 md:px-6 xl:px-20 2xl:container 2xl:mx-auto">

@@ -1,8 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import Link from 'next/link';
 import useCart from 'hooks/useCart';
 import { API_URL } from '../../config/index';
 import { parseCookies } from '../../helpers/index';
+import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import AuthContext from '../../context/AuthContext';
 import axios from 'axios';
@@ -13,6 +14,11 @@ export default function Payment({ token }) {
   const { user } = useContext(AuthContext);
 
   const [paymentMethod, setPaymentMethod] = useState('Intellimali');
+  const [cardNumber, setCardNumber] = useState('');
+
+  const [shippingDetails, setShippingDetails] = useState({});
+
+  const [intelliToken, setIntelliToken] = useState('');
 
   const {
     cart,
@@ -22,7 +28,13 @@ export default function Payment({ token }) {
     cartTotal,
   } = useCart();
 
-  const shippingDetails = JSON.parse(localStorage.getItem('shippingDetails'));
+  useEffect(() => {
+    const initialShippingDateils = JSON.parse(
+      localStorage.getItem('shippingDetails'),
+    );
+
+    setShippingDetails(initialShippingDateils);
+  }, []);
 
   console.log(shippingDetails);
 
@@ -65,17 +77,22 @@ export default function Payment({ token }) {
         const response = axios.post(`/api/getToken`, {
           username: 'capegadgets',
           password: '9d059e3fb4efe73760d5ecee6909c2d2',
-          cardNumber: '117081755127901',
+          cardNumber: cardNumber,
           terminalId: '94DVA001',
-          amount: Number(order.orderTotal / 100).toFixed(2),
+          amount: parseInt(order.orderTotal / 100).toFixed(2),
           redirectSuccess: `http://localhost:3000/account/orders/${order.id}?payment=success`,
-          redirectCancel: `http://localhost:3000/account/orders/${order.id}?payment=cancel`,
+          redirectCancel: `http://localhost:3000`,
           reference: order.id,
         });
 
-        console.log(await response);
-        // localStorage.setItem('intelliToken', response.data.token);
-        // window.location.href = `https://portal.intellimali.co.za/web/payment?paymentToken=${response.data.token}`;
+        const { data } = await response;
+        console.log(data.token);
+
+        localStorage.setItem('intelliToken', data.token);
+        // const tokenResponse = await response.data.token;
+        // setIntelliToken(tokenResponse);
+
+        window.location.href = `https://portal.intellimali.co.za/web/payment?paymentToken=${data.token}`;
       }
     };
 
@@ -151,16 +168,15 @@ export default function Payment({ token }) {
                     }`}
                 </style>
               </div>
-              <input
-                className="px-2 focus:outline-none focus:ring-2 focus:ring-gray-500  border-b border-gray-200 leading-4 text-base placeholder-gray-600 py-4 w-full"
-                type="text"
-                placeholder="Name of Card"
-              />
-              <input
-                className="px-2  focus:outline-none focus:ring-2 focus:ring-gray-500 border-b border-gray-200 leading-4 text-base placeholder-gray-600 py-4 w-full"
-                type="text"
-                placeholder="Card Number"
-              />
+              {paymentMethod === 'Intellimali' && (
+                <input
+                  className="px-2  focus:outline-none focus:ring-2 focus:ring-gray-500 border-b border-gray-200 leading-4 text-base placeholder-gray-600 py-4 w-full"
+                  type="text"
+                  placeholder="Card Number"
+                  value={cardNumber}
+                  onChange={(e) => setCardNumber(e.target.value)}
+                />
+              )}
             </div>
             <button
               onClick={handleClick}
@@ -177,15 +193,9 @@ export default function Payment({ token }) {
             </div>
             <div className="flex mt-7 flex-col items-end w-full space-y-6">
               <div className="flex justify-between w-full items-center">
-                <p className="text-lg leading-4 text-gray-600">Total items</p>
-                <p className="text-lg font-semibold leading-4 text-gray-600">
-                  20
-                </p>
-              </div>
-              <div className="flex justify-between w-full items-center">
                 <p className="text-lg leading-4 text-gray-600">Total Charges</p>
                 <p className="text-lg font-semibold leading-4 text-gray-600">
-                  $2790
+                  R {cartTotal / 100}
                 </p>
               </div>
               <div className="flex justify-between w-full items-center">
@@ -193,22 +203,16 @@ export default function Payment({ token }) {
                   Shipping charges
                 </p>
                 <p className="text-lg font-semibold leading-4 text-gray-600">
-                  $90
-                </p>
-              </div>
-              <div className="flex justify-between w-full items-center">
-                <p className="text-lg leading-4 text-gray-600">Sub total </p>
-                <p className="text-lg font-semibold leading-4 text-gray-600">
-                  $3520
+                  R150
                 </p>
               </div>
             </div>
             <div className="flex justify-between w-full items-center mt-32">
               <p className="text-xl font-semibold leading-4 text-gray-800">
-                Estimated Total{' '}
+                Total
               </p>
               <p className="text-lg font-semibold leading-4 text-gray-800">
-                $2900
+                R {(cartTotal + 15000) / 100}
               </p>
             </div>
           </div>
