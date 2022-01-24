@@ -80,8 +80,8 @@ export default function Payment({ token }) {
           cardNumber: cardNumber,
           terminalId: '94DVA001',
           amount: parseInt(order.orderTotal / 100).toFixed(2),
-          redirectSuccess: `http://localhost:3000/account/orders/${order.id}?payment=success`,
-          redirectCancel: `http://localhost:3000`,
+          redirectSuccess: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/account/orders/${order.id}?payment=success`,
+          redirectCancel: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/account/orders/${order.id}?payment=failed`,
           reference: order.id,
         });
 
