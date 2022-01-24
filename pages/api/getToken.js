@@ -13,8 +13,8 @@ export default async (req, res) => {
       cardNumber: req.body.cardNumber,
       terminalId: '94DVA001',
       amount: parseInt(req.body.amount),
-      redirectSuccess: `http://localhost:3000/account/orders/${req.body.reference}?payment=success`,
-      redirectCancel: `http://localhost:3000`,
+      redirectSuccess: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/account/orders/${req.body.reference}?payment=success`,
+      redirectCancel: `${process.env.NEXT_PUBLIC_FRONTEND_URL}/account/orders/${req.body.reference}?payment=failed`,
       reference: req.body.reference,
     },
     {
